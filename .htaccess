@@ -1,0 +1,18 @@
+# Allow access to API files
+<FilesMatch "^(chat|counter)\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Disable directory listing
+Options -Indexes
+
+# Prevent blocking of standard POST requests
+<IfModule mod_security.c>
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</IfModule>
+
+# Custom Error Pages
+ErrorDocument 403 /403.html
+ErrorDocument 404 /404.html

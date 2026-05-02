@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live F1 Stream</title>
+    <link rel="icon" type="image/png" href="soft.png">
+    <link rel="stylesheet" href="style.css?v=1.5">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="title-group">
+                <img src="soft.png" alt="F1 Logo" class="f1-logo">
+                <h1>F1 Live Stream</h1>
+                <span class="badge">Sky Sports F1</span>
+            </div>
+
+            <div class="controls">
+                <div class="stream-group">
+                    <div class="stream-selector">
+                        <button id="stream1-btn" class="active">Stream 1</button>
+                        <button id="stream2-btn">Stream 2</button>
+                    </div>
+
+                </div>
+
+                <div class="live-indicator">
+                    <span class="dot"></span>
+                    <span id="counter">Loading...</span> viewers
+                </div>
+            </div>
+        </header>
+
+        <div class="countdown-container">
+            <div class="countdown-info">
+                <span class="event-name" id="cd-event-name">Loading...</span>
+                <div class="countdown-timer" id="cd-timer">
+                    <div class="time-box"><span id="cd-days">00</span><small>Days</small></div>
+                    <div class="time-box"><span id="cd-hours">00</span><small>Hours</small></div>
+                    <div class="time-box"><span id="cd-mins">00</span><small>Mins</small></div>
+                    <div class="time-box"><span id="cd-secs">00</span><small>Secs</small></div>
+                </div>
+            </div>
+            <div class="countdown-controls">
+                <button id="prev-event-btn" class="cd-btn">&lt; Prev</button>
+                <button id="next-event-btn" class="cd-btn">Next &gt;</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <main class="video-container">
+                <iframe src="https://streamfree.app/embed/racing/skyf1?server=origin&quality=1080p&category=racing"
+                    width="100%" height="100%" scrolling="no" frameborder="0" allowfullscreen allowtransparency
+                    referrerpolicy="unsafe-url">
+                </iframe>
+            </main>
+
+            <div class="chat-wrapper">
+                <aside class="chat-container">
+                    <div class="chat-header">
+                        <h3>Live Chat</h3>
+                    </div>
+
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message system">Welcome to the chat!</div>
+                    </div>
+
+                    <form class="chat-input" id="chat-form">
+                        <input type="text" id="username-input" placeholder="Name" maxlength="15" required>
+                        <input type="text" id="message-input" placeholder="Type a message..." maxlength="100" required
+                            autocomplete="off">
+                        <button type="submit">Send</button>
+                    </form>
+                </aside>
+            </div>
+        </div>
+
+        <div class="popup-warning">
+            <p>
+                ⚠️ <strong>Note:</strong> these streams may contain pop-ups from the provider.
+                We recommend using <strong>Brave Browser</strong> for a better experience.
+            </p>
+        </div>
+
+        <footer>
+            <p>
+                This website is unofficial and is not associated in any way with the Formula 1 companies.
+                F1, FORMULA ONE, FORMULA 1, FIA FORMULA ONE WORLD CHAMPIONSHIP,
+                GRAND PRIX and related marks are trade marks of Formula One Licensing B.V.
+            </p>
+            <p>
+                This website neither creates, hosts, nor distributes video content.
+                All videos are streamed from external sites that are publicly accessible online.
+            </p>
+            <p>&copy; 2026 JCL. All rights reserved. <small>(v1.5 Feedback Feature Update)</small></p>
+        </footer>
+    </div>
+
+
+    <div class="feedback-sidebar" id="feedback-sidebar">
+        <div class="feedback-toggle" id="feedback-toggle">
+            <span>Feedback</span>
+        </div>
+        <div class="feedback-panel">
+            <h3>Send Feedback</h3>
+            <form id="feedback-form">
+                <textarea id="feedback-text" placeholder="Tell us what you think..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="feedback-message"
+                style="display: none; color: #4CAF50; margin-top: 10px; font-size: 0.9rem; text-align: center;">Thank
+                you for your feedback!</div>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.1"></script>
+</body>
+
+</html>
