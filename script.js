@@ -4,10 +4,7 @@ if (!sessionId) {
     sessionStorage.setItem('viewer_id', sessionId);
 }
 
-<<<<<<< HEAD
-=======
 const counterElement = document.getElementById('counter');
->>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
 const stream1Btn = document.getElementById('stream1-btn');
 const stream2Btn = document.getElementById('stream2-btn');
 const iframe = document.querySelector('iframe');
