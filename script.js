@@ -4,6 +4,10 @@ if (!sessionId) {
     sessionStorage.setItem('viewer_id', sessionId);
 }
 
+<<<<<<< HEAD
+=======
+const counterElement = document.getElementById('counter');
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
 const stream1Btn = document.getElementById('stream1-btn');
 const stream2Btn = document.getElementById('stream2-btn');
 const iframe = document.querySelector('iframe');
@@ -28,6 +32,7 @@ function setStream(url, btn) {
 stream1Btn.addEventListener('click', () => setStream(stream1Url, stream1Btn));
 stream2Btn.addEventListener('click', () => setStream(stream2Url, stream2Btn));
 
+<<<<<<< HEAD
 // --- Admin Auth State ---
 // Credentials are split/obfuscated to avoid plain-text exposure
 const _ak = ['a','d','m','i','n'].join('');
@@ -70,6 +75,10 @@ function updateCounter() {
     const counterEl = document.getElementById('counter');
     if (!counterEl || !isAdminLoggedIn()) return;
 
+=======
+// PHP Backend Polling Logic
+function updateCounter() {
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
     const formData = new FormData();
     formData.append('id', sessionId);
 
@@ -79,12 +88,19 @@ function updateCounter() {
     })
         .then(response => response.json())
         .then(data => {
+<<<<<<< HEAD
             const el = document.getElementById('counter');
             if (el && data.count !== undefined) el.textContent = data.count;
+=======
+            if (data.count !== undefined) {
+                counterElement.textContent = data.count;
+            }
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
         })
         .catch(error => console.error('Error fetching count:', error));
 }
 
+<<<<<<< HEAD
 if (isAdminLoggedIn()) injectViewerCounter();
 
 // Poll every 5 seconds — only fires if admin is logged in
@@ -92,12 +108,20 @@ setInterval(updateCounter, 5000);
 updateCounter();
 
 
+=======
+// Poll every 5 seconds
+setInterval(updateCounter, 5000);
+// Initial call
+updateCounter();
+
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
 // --- Chat Logic ---
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('chat-messages');
 const usernameInput = document.getElementById('username-input');
 const messageInput = document.getElementById('message-input');
 
+<<<<<<< HEAD
 // Lock/unlock username field for admin
 function applyAdminChatState() {
     if (isAdminLoggedIn()) {
@@ -123,6 +147,10 @@ function applyAdminChatState() {
 // Load username from storage (or apply admin state)
 applyAdminChatState();
 if (!isAdminLoggedIn() && localStorage.getItem('chat_username')) {
+=======
+// Load username from storage
+if (localStorage.getItem('chat_username')) {
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
     usernameInput.value = localStorage.getItem('chat_username');
 }
 
@@ -208,8 +236,12 @@ function updateChat() {
                     div.className = 'message';
 
                     const userSpan = document.createElement('span');
+<<<<<<< HEAD
                     const isAdminMsg = msg.username.trim().toUpperCase() === 'ADMIN';
                     userSpan.className = isAdminMsg ? 'user admin-user' : 'user';
+=======
+                    userSpan.className = 'user';
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
                     userSpan.textContent = msg.username + ': ';
 
                     const textSpan = document.createElement('span');
@@ -502,6 +534,7 @@ if (feedbackForm) {
         }
     });
 }
+<<<<<<< HEAD
 
 // --- Secret Logo Easter Egg: 3 clicks to open admin modal ---
 (function initAdminEasterEgg() {
@@ -597,3 +630,5 @@ if (feedbackForm) {
         closeModal();
     });
 })();
+=======
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
