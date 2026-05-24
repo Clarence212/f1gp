@@ -29,8 +29,53 @@ function setStream(url, btn) {
 stream1Btn.addEventListener('click', () => setStream(stream1Url, stream1Btn));
 stream2Btn.addEventListener('click', () => setStream(stream2Url, stream2Btn));
 
+<<<<<<< HEAD
+// --- Admin Auth State ---
+// Credentials are split/obfuscated to avoid plain-text exposure
+const _ak = ['a','d','m','i','n'].join('');
+const _ap = atob('ajFhZG0xbg=='); // base64 of a placeholder; real check below
+function _checkCreds(u, p) {
+    // Simple obfuscation — replace these values to set your credentials
+    const validUser = ['a','d','m','i','n'].join('');
+    const validPass = [String.fromCharCode(114),String.fromCharCode(101),String.fromCharCode(110),String.fromCharCode(122),String.fromCharCode(105),String.fromCharCode(111),String.fromCharCode(49),String.fromCharCode(50),String.fromCharCode(51)].join(''); // renzio123
+    return u === validUser && p === validPass;
+}
+
+function isAdminLoggedIn() {
+    return sessionStorage.getItem('_adm_auth') === '1';
+}
+
+function setAdminSession(val) {
+    if (val) sessionStorage.setItem('_adm_auth', '1');
+    else sessionStorage.removeItem('_adm_auth');
+}
+
+// --- Viewer Counter (admin-only) ---
+const counterElement = document.getElementById('counter'); // may be null (removed from HTML)
+
+function injectViewerCounter() {
+    const controls = document.querySelector('.controls');
+    if (!controls || document.getElementById('admin-viewer-indicator')) return;
+    const indicator = document.createElement('div');
+    indicator.className = 'live-indicator admin-viewer-indicator';
+    indicator.id = 'admin-viewer-indicator';
+    indicator.innerHTML = '<span class="dot"></span><span id="counter">...</span> viewers';
+    controls.appendChild(indicator);
+}
+
+function removeViewerCounter() {
+    const el = document.getElementById('admin-viewer-indicator');
+    if (el) el.remove();
+}
+
+function updateCounter() {
+    const counterEl = document.getElementById('counter');
+    if (!counterEl || !isAdminLoggedIn()) return;
+
+=======
 // PHP Backend Polling Logic
 function updateCounter() {
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
     const formData = new FormData();
     formData.append('id', sessionId);
 
@@ -40,26 +85,69 @@ function updateCounter() {
     })
         .then(response => response.json())
         .then(data => {
+<<<<<<< HEAD
+            const el = document.getElementById('counter');
+            if (el && data.count !== undefined) el.textContent = data.count;
+=======
             if (data.count !== undefined) {
                 counterElement.textContent = data.count;
             }
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
         })
         .catch(error => console.error('Error fetching count:', error));
 }
 
+<<<<<<< HEAD
+if (isAdminLoggedIn()) injectViewerCounter();
+
+// Poll every 5 seconds — only fires if admin is logged in
+setInterval(updateCounter, 5000);
+updateCounter();
+
+
+=======
 // Poll every 5 seconds
 setInterval(updateCounter, 5000);
 // Initial call
 updateCounter();
 
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
 // --- Chat Logic ---
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('chat-messages');
 const usernameInput = document.getElementById('username-input');
 const messageInput = document.getElementById('message-input');
 
+<<<<<<< HEAD
+// Lock/unlock username field for admin
+function applyAdminChatState() {
+    if (isAdminLoggedIn()) {
+        usernameInput.value = 'ADMIN';
+        usernameInput.readOnly = true;
+        usernameInput.style.color = '#ffd700';
+        usernameInput.style.fontWeight = '800';
+        usernameInput.style.letterSpacing = '1px';
+    } else {
+        usernameInput.readOnly = false;
+        usernameInput.style.color = '';
+        usernameInput.style.fontWeight = '';
+        usernameInput.style.letterSpacing = '';
+        // Restore saved username
+        if (localStorage.getItem('chat_username')) {
+            usernameInput.value = localStorage.getItem('chat_username');
+        } else {
+            usernameInput.value = '';
+        }
+    }
+}
+
+// Load username from storage (or apply admin state)
+applyAdminChatState();
+if (!isAdminLoggedIn() && localStorage.getItem('chat_username')) {
+=======
 // Load username from storage
 if (localStorage.getItem('chat_username')) {
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
     usernameInput.value = localStorage.getItem('chat_username');
 }
 
@@ -145,7 +233,12 @@ function updateChat() {
                     div.className = 'message';
 
                     const userSpan = document.createElement('span');
+<<<<<<< HEAD
+                    const isAdminMsg = msg.username.trim().toUpperCase() === 'ADMIN';
+                    userSpan.className = isAdminMsg ? 'user admin-user' : 'user';
+=======
                     userSpan.className = 'user';
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b
                     userSpan.textContent = msg.username + ': ';
 
                     const textSpan = document.createElement('span');
@@ -438,3 +531,101 @@ if (feedbackForm) {
         }
     });
 }
+<<<<<<< HEAD
+
+// --- Secret Logo Easter Egg: 3 clicks to open admin modal ---
+(function initAdminEasterEgg() {
+    const logo = document.getElementById('secret-logo');
+    const overlay = document.getElementById('admin-overlay');
+    const closeBtn = document.getElementById('admin-modal-close');
+    const loginForm = document.getElementById('admin-login-form');
+    const logoutWrap = document.getElementById('admin-logout-wrap');
+    const logoutBtn = document.getElementById('admin-logout-btn');
+    const adminError = document.getElementById('admin-error');
+    const adminUser = document.getElementById('admin-user');
+    const adminPass = document.getElementById('admin-pass');
+
+    if (!logo || !overlay) return;
+
+    let tapCount = 0;
+    let tapTimer = null;
+
+    function openModal() {
+        overlay.classList.add('active');
+        // Show correct panel based on login state
+        if (isAdminLoggedIn()) {
+            loginForm.style.display = 'none';
+            logoutWrap.style.display = 'block';
+        } else {
+            loginForm.style.display = 'flex';
+            logoutWrap.style.display = 'none';
+            adminError.textContent = '';
+            adminUser.value = '';
+            adminPass.value = '';
+        }
+        setTimeout(() => adminUser.focus && !isAdminLoggedIn() && adminUser.focus(), 100);
+    }
+
+    function closeModal() {
+        overlay.classList.remove('active');
+    }
+
+    logo.addEventListener('click', () => {
+        tapCount++;
+        clearTimeout(tapTimer);
+        if (tapCount >= 3) {
+            tapCount = 0;
+            openModal();
+        } else {
+            tapTimer = setTimeout(() => { tapCount = 0; }, 1200);
+        }
+    });
+
+    // Close on overlay background click
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+
+    closeBtn?.addEventListener('click', closeModal);
+
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+    });
+
+    // Login form submission
+    loginForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const u = adminUser.value.trim();
+        const p = adminPass.value;
+
+        if (_checkCreds(u, p)) {
+            setAdminSession(true);
+            adminError.textContent = '';
+            loginForm.style.display = 'none';
+            logoutWrap.style.display = 'block';
+            injectViewerCounter();
+            updateCounter();
+            applyAdminChatState();
+        } else {
+            adminError.textContent = 'Invalid credentials. Please try again.';
+            adminPass.value = '';
+            adminPass.focus();
+        }
+    });
+
+    // Logout
+    logoutBtn?.addEventListener('click', () => {
+        setAdminSession(false);
+        removeViewerCounter();
+        applyAdminChatState();
+        logoutWrap.style.display = 'none';
+        loginForm.style.display = 'flex';
+        adminError.textContent = '';
+        adminUser.value = '';
+        adminPass.value = '';
+        closeModal();
+    });
+})();
+=======
+>>>>>>> a7443cbb15ef1092547f1e71ee8149ef4bea191b

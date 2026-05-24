@@ -14,7 +14,7 @@
     <div class="container">
         <header>
             <div class="title-group">
-                <img src="soft.png" alt="F1 Logo" class="f1-logo">
+                <img src="soft.png" alt="F1 Logo" class="f1-logo" id="secret-logo" title="F1 Live Stream">
                 <h1>F1 Live Stream</h1>
                 <span class="badge">Sky Sports F1</span>
             </div>
@@ -28,10 +28,7 @@
 
                 </div>
 
-                <div class="live-indicator">
-                    <span class="dot"></span>
-                    <span id="counter">Loading...</span> viewers
-                </div>
+                <!-- Viewer count: admin-only, injected by JS -->
             </div>
         </header>
 
@@ -100,6 +97,33 @@
         </footer>
     </div>
 
+    <!-- Admin Login Modal (hidden) -->
+    <div class="admin-overlay" id="admin-overlay">
+        <div class="admin-modal" id="admin-modal">
+            <button class="admin-modal-close" id="admin-modal-close" aria-label="Close">&times;</button>
+            <div class="admin-modal-logo">
+                <img src="soft.png" alt="Logo" style="height:48px;width:auto;">
+            </div>
+            <h2 class="admin-modal-title">Admin Access</h2>
+            <p class="admin-modal-sub">Restricted area — authorized personnel only.</p>
+            <form id="admin-login-form" autocomplete="off">
+                <div class="admin-field">
+                    <label for="admin-user">Username</label>
+                    <input type="text" id="admin-user" placeholder="Enter username" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="admin-field">
+                    <label for="admin-pass">Password</label>
+                    <input type="password" id="admin-pass" placeholder="Enter password" autocomplete="new-password">
+                </div>
+                <div class="admin-error" id="admin-error"></div>
+                <button type="submit" class="admin-submit-btn" id="admin-submit-btn">Sign In</button>
+            </form>
+            <div class="admin-logout-wrap" id="admin-logout-wrap" style="display:none;">
+                <p class="admin-logged-in-msg">✅ Signed in as <strong>Admin</strong></p>
+                <button class="admin-logout-btn" id="admin-logout-btn">Sign Out</button>
+            </div>
+        </div>
+    </div>
 
     <div class="feedback-sidebar" id="feedback-sidebar">
         <div class="feedback-toggle" id="feedback-toggle">
